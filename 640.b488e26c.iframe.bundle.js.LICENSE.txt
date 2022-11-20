@@ -5,6 +5,10 @@ object-assign
 */
 
 /*!
+ * Programatically add the following
+ */
+
+/*!
  * The buffer module from node.js, for the browser.
  *
  * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
