@@ -5,9 +5,11 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { type Swiper as SwiperCore } from 'swiper';
+import { type Swiper as SwiperCore, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export default {
   /* 👇 The title prop is optional.
@@ -24,18 +26,24 @@ function CommonContainer({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SlidePane({ children }: { children: React.ReactNode }) {
+  return (
+    <Box minHeight={240} px={4} py={2}>{children}</Box>
+  );
+}
+
 export const Basic: ComponentStory<typeof Swiper> = () => (
   <Container>
     <CommonContainer>
       <Swiper>
         <SwiperSlide>
-          <p>Slide 0</p>
+          <SlidePane>Slide 0</SlidePane>
         </SwiperSlide>
         <SwiperSlide>
-          <p>Slide 1</p>
+          <SlidePane>Slide 1</SlidePane>
         </SwiperSlide>
         <SwiperSlide>
-          <p>Slide 2</p>
+          <SlidePane>Slide 2</SlidePane>
         </SwiperSlide>
       </Swiper>
     </CommonContainer>
@@ -54,13 +62,13 @@ export const WithState: ComponentStory<typeof Swiper> = () => {
       <CommonContainer>
         <Swiper onSlideChange={onSlideChange}>
           <SwiperSlide>
-            <p>Slide 0</p>
+            <SlidePane>Slide 0</SlidePane>
           </SwiperSlide>
           <SwiperSlide>
-            <p>Slide 1</p>
+            <SlidePane>Slide 1</SlidePane>
           </SwiperSlide>
           <SwiperSlide>
-            <p>Slide 2</p>
+            <SlidePane>Slide 2</SlidePane>
           </SwiperSlide>
         </Swiper>
       </CommonContainer>
@@ -89,13 +97,13 @@ export const HandleOutside: ComponentStory<typeof Swiper> = () => {
       <CommonContainer>
         <Swiper onSwiper={onSwiper} onSlideChange={onSlideChange}>
           <SwiperSlide>
-            <p>Slide 0</p>
+            <SlidePane>Slide 0</SlidePane>
           </SwiperSlide>
           <SwiperSlide>
-            <p>Slide 1</p>
+            <SlidePane>Slide 1</SlidePane>
           </SwiperSlide>
           <SwiperSlide>
-            <p>Slide 2</p>
+            <SlidePane>Slide 2</SlidePane>
           </SwiperSlide>
         </Swiper>
       </CommonContainer>
@@ -115,9 +123,14 @@ export const HandleOutside: ComponentStory<typeof Swiper> = () => {
   );
 };
 
-function ButtonsInsideSwiper() {
+function ButtonsInsideSwiper({
+  value,
+  setValue,
+}: {
+  value: number;
+  setValue: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const swiper = useSwiper();
-  const [value, setValue] = React.useState(0);
   const onButtonClick = (index: number) => () => {
     setValue(index);
     swiper.slideTo(index);
@@ -139,20 +152,63 @@ function ButtonsInsideSwiper() {
   );
 }
 
-export const HandleInside: ComponentStory<typeof Swiper> = () => (
+export const HandleInside: ComponentStory<typeof Swiper> = () => {
+  const [value, setValue] = React.useState(0);
+  const onSlideChange = (currentSwiper: SwiperCore) => {
+    setValue(currentSwiper.activeIndex);
+  };
+
+  return (
+    <Container>
+      <CommonContainer>
+        <Swiper onSlideChange={onSlideChange}>
+          <SwiperSlide>
+            <SlidePane>Slide 0</SlidePane>
+          </SwiperSlide>
+          <SwiperSlide>
+            <SlidePane>Slide 1</SlidePane>
+          </SwiperSlide>
+          <SwiperSlide>
+            <SlidePane>Slide 2</SlidePane>
+          </SwiperSlide>
+          <ButtonsInsideSwiper value={value} setValue={setValue} />
+        </Swiper>
+      </CommonContainer>
+    </Container>
+  );
+};
+
+export const withNavigation: ComponentStory<typeof Swiper> = () => (
   <Container>
     <CommonContainer>
-      <Swiper>
+      <Swiper modules={[Navigation]} navigation>
         <SwiperSlide>
-          <p>Slide 0</p>
+          <SlidePane>Slide 0</SlidePane>
         </SwiperSlide>
         <SwiperSlide>
-          <p>Slide 1</p>
+          <SlidePane>Slide 1</SlidePane>
         </SwiperSlide>
         <SwiperSlide>
-          <p>Slide 2</p>
+          <SlidePane>Slide 2</SlidePane>
         </SwiperSlide>
-        <ButtonsInsideSwiper />
+      </Swiper>
+    </CommonContainer>
+  </Container>
+);
+
+export const withPagination: ComponentStory<typeof Swiper> = () => (
+  <Container>
+    <CommonContainer>
+      <Swiper modules={[Pagination]} pagination>
+        <SwiperSlide>
+          <SlidePane>Slide 0</SlidePane>
+        </SwiperSlide>
+        <SwiperSlide>
+          <SlidePane>Slide 1</SlidePane>
+        </SwiperSlide>
+        <SwiperSlide>
+          <SlidePane>Slide 2</SlidePane>
+        </SwiperSlide>
       </Swiper>
     </CommonContainer>
   </Container>
