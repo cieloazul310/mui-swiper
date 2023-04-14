@@ -1,6 +1,6 @@
 /* eslint react/jsx-props-no-spreading: off */
 import * as React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,14 +11,15 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Swiper Basic Demo',
+const meta: Meta<typeof Swiper> = {
+  title: 'Example/Swiper Basic Demo',
   component: Swiper,
-} as ComponentMeta<typeof Swiper>;
+  tags: ['autodocs'],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof Swiper>;
 
 function CommonContainer({ children }: { children: React.ReactNode }) {
   return (
@@ -28,29 +29,33 @@ function CommonContainer({ children }: { children: React.ReactNode }) {
 
 function SlidePane({ children }: { children: React.ReactNode }) {
   return (
-    <Box minHeight={240} px={4} py={2}>{children}</Box>
+    <Box minHeight={240} px={4} py={2}>
+      {children}
+    </Box>
   );
 }
 
-export const Basic: ComponentStory<typeof Swiper> = () => (
-  <Container>
-    <CommonContainer>
-      <Swiper>
-        <SwiperSlide>
-          <SlidePane>Slide 0</SlidePane>
-        </SwiperSlide>
-        <SwiperSlide>
-          <SlidePane>Slide 1</SlidePane>
-        </SwiperSlide>
-        <SwiperSlide>
-          <SlidePane>Slide 2</SlidePane>
-        </SwiperSlide>
-      </Swiper>
-    </CommonContainer>
-  </Container>
-);
+export const Basic: Story = {
+  render: () => (
+    <Container>
+      <CommonContainer>
+        <Swiper>
+          <SwiperSlide>
+            <SlidePane>Slide 0</SlidePane>
+          </SwiperSlide>
+          <SwiperSlide>
+            <SlidePane>Slide 1</SlidePane>
+          </SwiperSlide>
+          <SwiperSlide>
+            <SlidePane>Slide 2</SlidePane>
+          </SwiperSlide>
+        </Swiper>
+      </CommonContainer>
+    </Container>
+  ),
+};
 
-export const WithState: ComponentStory<typeof Swiper> = () => {
+const WithStateWithHooks = () => {
   const [slide, setSlide] = React.useState(0);
   const onSlideChange = (currentSwiper: SwiperCore) => {
     setSlide(currentSwiper.activeIndex);
@@ -76,7 +81,11 @@ export const WithState: ComponentStory<typeof Swiper> = () => {
   );
 };
 
-export const HandleOutside: ComponentStory<typeof Swiper> = () => {
+export const WithState: Story = {
+  render: () => <WithStateWithHooks />,
+};
+
+const HandleOutsideWithHooks = () => {
   const [slide, setSlide] = React.useState(0);
   const [swiper, setSwiper] = React.useState<SwiperCore | null>(null);
 
@@ -123,6 +132,10 @@ export const HandleOutside: ComponentStory<typeof Swiper> = () => {
   );
 };
 
+export const HandleOutside: Story = {
+  render: () => <HandleOutsideWithHooks />,
+};
+
 function ButtonsInsideSwiper({
   value,
   setValue,
@@ -152,7 +165,7 @@ function ButtonsInsideSwiper({
   );
 }
 
-export const HandleInside: ComponentStory<typeof Swiper> = () => {
+const HandleInsideWithHooks = () => {
   const [value, setValue] = React.useState(0);
   const onSlideChange = (currentSwiper: SwiperCore) => {
     setValue(currentSwiper.activeIndex);
@@ -178,38 +191,46 @@ export const HandleInside: ComponentStory<typeof Swiper> = () => {
   );
 };
 
-export const withNavigation: ComponentStory<typeof Swiper> = () => (
-  <Container>
-    <CommonContainer>
-      <Swiper modules={[Navigation]} navigation>
-        <SwiperSlide>
-          <SlidePane>Slide 0</SlidePane>
-        </SwiperSlide>
-        <SwiperSlide>
-          <SlidePane>Slide 1</SlidePane>
-        </SwiperSlide>
-        <SwiperSlide>
-          <SlidePane>Slide 2</SlidePane>
-        </SwiperSlide>
-      </Swiper>
-    </CommonContainer>
-  </Container>
-);
+export const HandleInside: Story = {
+  render: () => <HandleInsideWithHooks />,
+};
 
-export const withPagination: ComponentStory<typeof Swiper> = () => (
-  <Container>
-    <CommonContainer>
-      <Swiper modules={[Pagination]} pagination>
-        <SwiperSlide>
-          <SlidePane>Slide 0</SlidePane>
-        </SwiperSlide>
-        <SwiperSlide>
-          <SlidePane>Slide 1</SlidePane>
-        </SwiperSlide>
-        <SwiperSlide>
-          <SlidePane>Slide 2</SlidePane>
-        </SwiperSlide>
-      </Swiper>
-    </CommonContainer>
-  </Container>
-);
+export const WithNavigation: Story = {
+  render: () => (
+    <Container>
+      <CommonContainer>
+        <Swiper modules={[Navigation]} navigation>
+          <SwiperSlide>
+            <SlidePane>Slide 0</SlidePane>
+          </SwiperSlide>
+          <SwiperSlide>
+            <SlidePane>Slide 1</SlidePane>
+          </SwiperSlide>
+          <SwiperSlide>
+            <SlidePane>Slide 2</SlidePane>
+          </SwiperSlide>
+        </Swiper>
+      </CommonContainer>
+    </Container>
+  ),
+};
+
+export const WithPagination: Story = {
+  render: () => (
+    <Container>
+      <CommonContainer>
+        <Swiper modules={[Pagination]} pagination>
+          <SwiperSlide>
+            <SlidePane>Slide 0</SlidePane>
+          </SwiperSlide>
+          <SwiperSlide>
+            <SlidePane>Slide 1</SlidePane>
+          </SwiperSlide>
+          <SwiperSlide>
+            <SlidePane>Slide 2</SlidePane>
+          </SwiperSlide>
+        </Swiper>
+      </CommonContainer>
+    </Container>
+  ),
+};

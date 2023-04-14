@@ -1,23 +1,24 @@
-import type { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)', '../src/stories/**/*.mdx'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    '@storybook/addon-styling',
     '@storybook/addon-interactions',
   ],
-  core: {
-    builder: '@storybook/builder-webpack5',
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {},
   },
-  framework: '@storybook/react',
   typescript: {
     check: false,
     checkOptions: {},
     reactDocgen: 'react-docgen-typescript',
     reactDocgenTypescriptOptions: {
-      allowSyntheticDefaultImports: false, // speeds up storybook build time
-      esModuleInterop: false, // speeds up storybook build time
+      // allowSyntheticDefaultImports: false, // speeds up storybook build time
+      // esModuleInterop: false, // speeds up storybook build time
       shouldExtractLiteralValuesFromEnum: true, // makes union prop types like variant and size appear as select controls
       shouldRemoveUndefinedFromOptional: true, // makes string and boolean types that can be undefined appear as inputs and switches
       propFilter: (prop: any) =>
@@ -26,6 +27,9 @@ const config: StorybookConfig = {
           : true,
     },
   },
+  docs: {
+    autodocs: 'tag',
+  },
 };
 
-module.exports = config;
+export default config;
