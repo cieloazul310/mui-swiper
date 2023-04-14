@@ -1,6 +1,6 @@
 /* eslint react/jsx-props-no-spreading: off */
 import * as React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -10,14 +10,13 @@ import { type Swiper as SwiperCore, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
-export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Swiper',
+const meta: Meta<typeof Swiper> = {
+  title: 'Example/Swiper',
   component: Swiper,
-} as ComponentMeta<typeof Swiper>;
+  tags: ['autodocs'],
+};
+
+export default meta;
 
 type TabPanelProps = React.PropsWithChildren<{
   index: number;
@@ -48,7 +47,9 @@ function a11yProps(index: number) {
   };
 }
 
-export const Basic: ComponentStory<typeof Swiper> = () => {
+type Story = StoryObj<typeof Swiper>;
+
+const BasicWithHooks = () => {
   const [swiper, setSwiper] = React.useState<SwiperCore | null>(null);
   const [value, setValue] = React.useState(0);
 
@@ -105,7 +106,12 @@ export const Basic: ComponentStory<typeof Swiper> = () => {
   );
 };
 
-export const BindKeyboard: ComponentStory<typeof Swiper> = () => {
+export const Basic: Story = {
+  render: () => <BasicWithHooks />,
+};
+
+
+const BindKeyboardWithHooks = () => {
   const [swiper, setSwiper] = React.useState<SwiperCore | null>(null);
   const [value, setValue] = React.useState(0);
 
@@ -164,4 +170,8 @@ export const BindKeyboard: ComponentStory<typeof Swiper> = () => {
       </Swiper>
     </Box>
   );
+};
+
+export const BindKeyboard: Story = {
+  render: () => <BindKeyboardWithHooks />,
 };

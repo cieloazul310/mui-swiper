@@ -1,6 +1,6 @@
 /* eslint react/jsx-props-no-spreading: off */
 import * as React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -11,14 +11,13 @@ import { bindKeyboard } from 'react-swipeable-views-utils';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
-export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'React Swipeable Views',
+const meta: Meta<typeof SwipeableViews> = {
+  title: 'Example/React Swipeable Views',
   component: SwipeableViews,
-} as ComponentMeta<typeof SwipeableViews>;
+  tags: ['autodocs'],
+};
+
+export default meta;
 
 type TabPanelProps = React.PropsWithChildren<{
   index: number;
@@ -49,7 +48,9 @@ function a11yProps(index: number) {
   };
 }
 
-export const Basic: ComponentStory<typeof SwipeableViews> = () => {
+type Story = StoryObj<typeof SwipeableViews>;
+
+const BasicWithHooks = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -91,7 +92,11 @@ export const Basic: ComponentStory<typeof SwipeableViews> = () => {
   );
 };
 
-export const BindKeyboard: ComponentStory<typeof SwipeableViews> = () => {
+export const Basic: Story = {
+  render: () => <BasicWithHooks />,
+};
+
+const BindKeyboardWithHooks = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -134,4 +139,8 @@ export const BindKeyboard: ComponentStory<typeof SwipeableViews> = () => {
       </BindKeyboardSwipeableViews>
     </Box>
   );
+};
+
+export const BindKeyboard: Story = {
+  render: () => <BindKeyboardWithHooks />,
 };
